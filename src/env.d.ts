@@ -1,5 +1,6 @@
 /// <reference types="vite/client" />
 import React from 'react';
+import { FunctionalComponent } from 'vue';
 
 
 declare module '*.vue' {

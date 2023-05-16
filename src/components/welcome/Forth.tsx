@@ -1,11 +1,9 @@
-import { defineComponent  } from 'vue';
-import s from './First.module.scss'
+import s from './WelcomeLayout.module.scss'
 import cloud from '../../assets/icons/cloud.svg'
 import { RouterLink } from 'vue-router';
 import { WelcomeLayout } from './WelcomeLayout';
-export const Forth = defineComponent({
-  setup: (props,context) => { 
-    return () => (
+export const Forth =  () => { 
+    return  (
      <WelcomeLayout>
         {{  
           icon :()=> <img class={s.icon} src={cloud} />,
@@ -19,5 +17,5 @@ export const Forth = defineComponent({
       </WelcomeLayout>
    )
 }
-})
 
+Forth.displayName = 'Forth'
