@@ -15,7 +15,7 @@
 }
 
 .actions {
-  position: absolute;
+  position: absolute; //fixed定位会导致上下拉动时，页面分离的bug
   z-index: var(--z-index-bottom-nav);
   background: var(--welcome-bg-end);
   left: 0;

@@ -6,7 +6,7 @@ import { useSwipe } from '../hooks/useSwipe';
 
 export const Welcome= defineComponent({
   setup: (props,context) => { 
-    const main = ref<HTMLElement | null>(null)
+    const main = ref<HTMLElement >()
     const { direction, swiping } = useSwipe(main)
     watchEffect(() => {
       console.log(swiping.value, direction.value)
