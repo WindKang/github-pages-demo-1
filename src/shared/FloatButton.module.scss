@@ -3,7 +3,7 @@
   background: var(--float-button-bg);
   width: 56px;
   height: 56px;
-  border-radius: math.div(56px, 2);
+  border-radius: math.div(56px, 2); //50%
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,8 +11,8 @@
   bottom: 16px;
   right: 16px;
   .icon{
-    width: 24px;
-    height: 24px;
+    width: 30px;
+    height: 30px;
     fill: var(--float-button-text);
   }
 }
