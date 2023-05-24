@@ -1,7 +1,7 @@
 import { defineComponent , PropType } from 'vue';
 import s from './Icon.module.scss';
 
-export type IconName = 'add'|'chart'|'clock'|'cloud'|'mangosteen'|'pig'|
+export type IconName = 'add'|'chart'|'clock'|'cloud'|'mangosteen'|'pig'|'notes'|'date'|
 'menu'|'charts'|'export'|'notify'|'left';
 export const Icon = defineComponent({
   props:{
