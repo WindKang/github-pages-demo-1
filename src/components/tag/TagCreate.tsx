@@ -6,14 +6,14 @@ import { Icon } from '../../shared/Icon';
 import { EmojiSelect } from '../../shared/EmojiSelect';
 export const TagCreate = defineComponent({
   props:{
-    name:{
-      type:String as PropType<string>,
+    modelValue: {
+      type: String,
     }
   },
   setup: (props,context) => { 
     const formData = reactive({
       name:'',
-      sign:'',
+      sign:'x',
     })
     return () => (
       <MainLayout>{{
@@ -34,9 +34,9 @@ export const TagCreate = defineComponent({
             </div>
             <div class={s.formRow}>
               <label class={s.formLabel}>
-                <span class={s.formItem_name}>符号</span>
+                <span class={s.formItem_name}>符号 {formData.sign}</span>
                 <div class={s.formItem_value}>
-                  <EmojiSelect class={[s.formItem, s.emojiList, s.error]} />  
+                  <EmojiSelect v-model ={formData.sign} class={[s.formItem, s.emojiList, s.error]} />  
                 </div>
                 <div class={s.formItem_errorHint}>
                   <span>必填</span>
