@@ -22,11 +22,9 @@ export const InputPad = defineComponent({
         if(dotIndex >= 0) // 已经有小数点了
         return;
       }else if(nString === '0') {
-        if(dotIndex <0) {// 如果没有小数点
           if(refAmount.value === '0') {// 如果当前值是0
             return;
           }
-        }
       } else {
         if(refAmount.value==='0'){
           refAmount.value = '';
