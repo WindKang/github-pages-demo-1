@@ -3,8 +3,8 @@ import { emojiList } from './emojiList';
 import s from './EmojiSelect.module.scss';
 export const EmojiSelect = defineComponent({
   props:{
-    name:{
-      type:String as PropType<string>,
+    modelValue:{
+      type: String
     }
   },
   setup: (props,context) => { 
@@ -40,7 +40,8 @@ export const EmojiSelect = defineComponent({
       const selectedItem = table[refSelected.value][1]
       return selectedItem.map(category =>
         emojiList.find(item => item[0] === category)?.[1]
-          .map(item => <li onClick={()=>onClickEmoji(item)}>{item}</li>
+          .map(item => <li class={item === props.modelValue ? s.selectedEmoji : ''}
+            onClick={()=>onClickEmoji(item)}>{item}</li>
         ))
     })
     return () => 
