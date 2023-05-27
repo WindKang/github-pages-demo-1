@@ -24,7 +24,7 @@ export const TagCreate = defineComponent({
           { key:'name',type:'pattern',regex: /^.{1,4}$/ ,message: '只能填1-4个字符'},
           { key:'sign',type:'required',message:'必填'},
        ]
-       Object.assign(errors, {
+       Object.assign(errors, { //这里为啥是Object开头 因为errors是一个reactive对象，所以不能直接赋值，要用Object.assign
         name: undefined,
         sign: undefined
       })
