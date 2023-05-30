@@ -41,7 +41,7 @@ export const EmojiSelect = defineComponent({
         props.onUpdateModelValue(emoji)
       } else {
         context.emit('update:modelValue', emoji)
-      }
+      } 
     }
     const emojis = computed(()=>{
       const selectedItem = table[refSelected.value][1]
