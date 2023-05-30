@@ -20,13 +20,13 @@ export class Time{
       .replace(/ss/, second.toString().padStart(2, '0'))
       .replace(/SSS/, msecond.toString().padStart(3, '0'))
   }
-  fitstDayOfMonth(){
+  firstDayOfMonth(){
    return new Time(new Date(this.date.getFullYear(), this.date.getMonth(), 1 ,0,0,0)) ;  
    }
    firstDayOfYear(){
     return new Time(new Date(this.date.getFullYear(), 0, 1 ,0,0,0)) ;  
    }
-   lastDaOfMonth(){
+   lastDayOfMonth(){
     return new Time(new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0 ,0,0,0)) ;  
    }
    lastDayOfYear(){
@@ -35,7 +35,7 @@ export class Time{
   getRaw() {
     return this.date
   }
-    add(amount:number,unit:'year'|  'month'| 'day'| 'hour'| 'minute'| 'second'| 'millisecond'){
+   add(amount:number,unit:'year'|  'month'| 'day'| 'hour'| 'minute'| 'second'| 'millisecond'){
       // return new Time but not change this.date
       const date = new Date(this.date.getTime());
       switch(unit){
@@ -68,5 +68,5 @@ export class Time{
           throw new Error('unit is not valid');
         }
         return new Time(date);
-}
+  }
 }
