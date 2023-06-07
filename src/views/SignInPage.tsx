@@ -34,8 +34,8 @@ export const SignInPage = defineComponent({
         ]))
     }
     const onClickSendValidationCode = async() => {
-     const response = await axios.post('/api/v1/validation_codes',{email:formData.email})
-     console.log(response)
+    //  const response = await axios.post('/api/v1/validation_codes',{email:formData.email})
+    //  console.log(response)
     }
     return () => (
       <MainLayout>{{
