@@ -1,8 +1,9 @@
-import axios from 'axios';
 import { defineComponent,PropType, reactive, ref } from 'vue';
+import { useBool } from '../hooks/useBool';
 import { MainLayout } from '../layouts/MainLayout';
 import { Button } from '../shared/Button';
 import { Form, FormItem } from '../shared/Form';
+import { http } from '../shared/Http';
 import { Icon } from '../shared/Icon';
 import { validate } from '../shared/validate';
 import s from './SignInPage.module.scss';
@@ -22,6 +23,7 @@ export const SignInPage = defineComponent({
       email:[],
       validationCode:[]
     })
+    const {ref:refDisabled,toggle,on:disabled,off:enable} = useBool(false);
     const onSubmit = (e:Event) => {
         e.preventDefault();
         Object.assign(errors, {
@@ -34,13 +36,23 @@ export const SignInPage = defineComponent({
           {key:'validationCode',type:'required',message:'请输入验证码'},
         ]))
     }
+    const onError = (error:any) => {
+      if(error.response.status === 422){
+        Object.assign(errors,error.response.data.errors)
+      }
+      throw error;
+    }
     const onClickSendValidationCode = async() => {
-     const response = await axios.post('/api/v1/validation_codes',{email:formData.email})
+     disabled();
+     const response = await http
+     .post('/validation_codes',{email:formData.email})
+     .catch(onError)
+     .finally(enable)
      refValidationCode.value?.startCount();
     }
     return () => (
       <MainLayout>{{
-        title:()=>"登陆",
+        title:()=>"登录",
         icon:()=><Icon name="left" /> ,
         default:()=>(
           <div class ={s.wrapper}>
@@ -54,10 +66,12 @@ export const SignInPage = defineComponent({
               v-model={formData.email} error={errors.email?.[0]} />
               <FormItem  ref={refValidationCode} label="验证码" type ="validationCode" 
               placeholder='请输入六位数字'
+              countForm={3}
+              disabled={refDisabled.value}
               onClick= {onClickSendValidationCode}
               v-model={formData.validationCode} error={errors.validationCode?.[0]}/>
               <FormItem style={{paddingTop:'96px'}}>
-                <Button>登陆</Button>
+                <Button>登录</Button>
               </FormItem>
             </Form>
           </div>
