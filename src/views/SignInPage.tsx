@@ -5,7 +5,7 @@ import { Button } from '../shared/Button';
 import { Form, FormItem } from '../shared/Form';
 import { http } from '../shared/Http';
 import { Icon } from '../shared/Icon';
-import { validate } from '../shared/validate';
+import { hasError, validate } from '../shared/validate';
 import s from './SignInPage.module.scss';
 export const SignInPage = defineComponent({
   props:{
@@ -24,17 +24,21 @@ export const SignInPage = defineComponent({
       validationCode:[]
     })
     const {ref:refDisabled,toggle,on:disabled,off:enable} = useBool(false);
-    const onSubmit = (e:Event) => {
+    const onSubmit = async (e:Event) => {
         e.preventDefault();
         Object.assign(errors, {
           email: [],
           validationCode: []
         })
-     Object.assign(errors,validate(formData,[
+        Object.assign(errors,validate(formData,[
           {key:'email',type:'required',message:'请输入邮箱地址'},
           {key:'email',type:'pattern',regex:/^.+@.+$/,message:'请输入正确的邮箱地址'},
           {key:'validationCode',type:'required',message:'请输入验证码'},
         ]))
+        if(!hasError(errors)){
+        const response = await http.post('/sessions',formData)
+        }
+
     }
     const onError = (error:any) => {
       if(error.response.status === 422){
@@ -71,7 +75,7 @@ export const SignInPage = defineComponent({
               onClick= {onClickSendValidationCode}
               v-model={formData.validationCode} error={errors.validationCode?.[0]}/>
               <FormItem style={{paddingTop:'96px'}}>
-                <Button>登录</Button>
+                <Button type = "submit">登录</Button>
               </FormItem>
             </Form>
           </div>
