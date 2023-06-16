@@ -3,6 +3,7 @@ import { useBool } from '../hooks/useBool';
 import { MainLayout } from '../layouts/MainLayout';
 import { Button } from '../shared/Button';
 import { Form, FormItem } from '../shared/Form';
+import { history } from '../shared/history';
 import { http } from '../shared/Http';
 import { Icon } from '../shared/Icon';
 import { hasError, validate } from '../shared/validate';
@@ -16,27 +17,29 @@ export const SignInPage = defineComponent({
   setup: (props,context) => { 
     const formData = reactive({
       email:"",
-      validationCode:""
+      code:""
     })
     const refValidationCode = ref<any>();
     const errors = reactive({
       email:[],
-      validationCode:[]
+      code:[]
     })
     const {ref:refDisabled,toggle,on:disabled,off:enable} = useBool(false);
     const onSubmit = async (e:Event) => {
         e.preventDefault();
         Object.assign(errors, {
           email: [],
-          validationCode: []
+          code: []
         })
         Object.assign(errors,validate(formData,[
           {key:'email',type:'required',message:'请输入邮箱地址'},
           {key:'email',type:'pattern',regex:/^.+@.+$/,message:'请输入正确的邮箱地址'},
-          {key:'validationCode',type:'required',message:'请输入验证码'},
+          {key:'code',type:'required',message:'请输入验证码'},
         ]))
         if(!hasError(errors)){
-        const response = await http.post('/sessions',formData)
+          const response = await http.post<{ jwt: string }>('/session', formData)
+          localStorage.setItem('jwt', response.data.jwt)
+          history.push('/')
         }
 
     }
@@ -49,7 +52,7 @@ export const SignInPage = defineComponent({
     const onClickSendValidationCode = async() => {
      disabled();
      const response = await http
-     .post('/validation_codes',{email:formData.email})
+     .post('/validation_codes',{email : formData.email})
      .catch(onError)
      .finally(enable)
      refValidationCode.value?.startCount();
@@ -73,7 +76,7 @@ export const SignInPage = defineComponent({
               countForm={3}
               disabled={refDisabled.value}
               onClick= {onClickSendValidationCode}
-              v-model={formData.validationCode} error={errors.validationCode?.[0]}/>
+              v-model={formData.code} error={errors.code?.[0]}/>
               <FormItem style={{paddingTop:'96px'}}>
                 <Button type = "submit">登录</Button>
               </FormItem>
