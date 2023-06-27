@@ -17,6 +17,9 @@ export class Http {
     return this.instance.request<R>({ ...config, url: url, params: query, method: 'get' })
   }
   post<R = unknown>(url: string, data?: Record<string, JSONValue>, config?: PostConfig) {
+    // if (config?.params?._mock) {
+    //   return Promise.resolve({data: {jwt:'abcd'}})
+    // }
     return this.instance.request<R>({ ...config, url, data, method: 'post' })
   }
   patch<R = unknown>(url: string, data?: Record<string, JSONValue>, config?: PatchConfig) {
@@ -34,8 +37,6 @@ const mock = (response: AxiosResponse) => {
   switch (response.config?.params?._mock) {
     case 'tagIndex':
       [response.status, response.data] = mockTagIndex(response.config)
-      console.log('response')
-      console.log(response)
       return true
     case 'session':
       [response.status, response.data] = mockSession(response.config)
