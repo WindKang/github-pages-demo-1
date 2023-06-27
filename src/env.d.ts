@@ -1,7 +1,4 @@
 /// <reference types="vite/client" />
-import React from 'react';
-import { FunctionalComponent } from 'vue';
-
 
 declare module '*.vue' {
   import type { DefineComponent } from 'vue'
@@ -12,3 +9,10 @@ declare module '*.vue' {
 
 type JSONValue = null | boolean | string | number | JSONValue[] | Record<string, JSONValue>
 
+type Tag = {
+  id: number,
+  user_id: number,
+  name: string,
+  sign: string,
+  kind: expenses | income
+}
