@@ -1,5 +1,6 @@
 import { defineComponent,onMounted,PropType, ref } from 'vue';
 import { MainLayout } from '../../layouts/MainLayout';
+import { Button } from '../../shared/Button';
 import { http } from '../../shared/Http';
 import { Icon } from '../../shared/Icon';
 import { Tab, Tabs } from '../../shared/Tabs';
@@ -13,12 +14,17 @@ export const ItemCreate = defineComponent({
   },
   setup: (props,context) => { 
     const refKind = ref('支出')
+    const refPage = ref(0)
+    const refHasMore = ref(false)
     onMounted(async () => {
-      const response = await http.get<{ resources: Tag[] }>('/tags', {
+      const response = await http.get<Resources <Tag> >('/tags', {
         kind: 'expenses',
         _mock: 'tagIndex'
       })
-      refExpensesTags.value = response.data.resources
+      const {resources,pager}= response.data
+      refExpensesTags.value = resources
+      refHasMore.value =(pager.page-1)* pager.per_page +resources.length < pager.count 
+      console.log(refHasMore.value)
     })
     const refExpensesTags = ref<Tag[]>([])
     onMounted(async () => {
@@ -37,7 +43,8 @@ export const ItemCreate = defineComponent({
             {/* <Tabs selected ={refKind.value} onUpdateSelected={ name => refKind.value = name }> */}
             <div class={s.wrapper}>
             <Tabs v-model:selected={refKind.value} class={s.tabs}>
-              <Tab name="支出" class={s.tags_wrapper}>
+              <Tab name="支出" >
+                <div class={s.tags_wrapper}>
                 <div class={s.tag}>
                   <div class={s.sign}>
                     <Icon name="add" class={s.createTag} />
@@ -56,6 +63,13 @@ export const ItemCreate = defineComponent({
                     </div>
                   </div>
                 )}
+                </div>
+                <div class ={s.more}>
+                  { refHasMore.value ?
+                    <Button >加载更多</Button> :
+                    <span>没有更多</span>
+                  }
+                </div>
               </Tab>
               <Tab name="收入" class={s.tags_wrapper}>
                 <div class={s.tag}>
