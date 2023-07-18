@@ -74,7 +74,7 @@ http.instance.interceptors.response.use((response) => {
   }
 })
 http.instance.interceptors.response.use(
-  response => response,
+  response => { return response },
   error => {
     if (error.response) {
       const axiosError = error as AxiosError
