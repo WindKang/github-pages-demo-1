@@ -29,7 +29,7 @@ export const TagEdit = defineComponent({
     return () => (
         <MainLayout >{{
         title: () => '新增标签',
-        icon: ()=> <Icon name='left' onClick={()=>{}}/>,
+        icon: ()=> <BackIcon/>,
         default :()=> <>
         <TagForm />
         <div class= {s.actions}>

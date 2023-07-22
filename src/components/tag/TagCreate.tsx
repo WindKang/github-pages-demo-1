@@ -32,7 +32,7 @@ export const TagCreate = defineComponent({
     return () => (
       <MainLayout>{{
         title: () => '新增标签',
-        icon: ()=> <Icon name='left' onClick={()=>{}}/>,
+        icon: ()=> <BackIcon/>,
         default :()=>(
           <TagForm/>
         ) 
